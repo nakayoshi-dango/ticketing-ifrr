@@ -69,11 +69,10 @@ public class CreateIncidencia extends javax.swing.JDialog {
         jTextField5 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(766, 265));
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(102, 102, 255));
-        jPanel1.setPreferredSize(new java.awt.Dimension(766, 240));
+        jPanel1.setPreferredSize(new java.awt.Dimension(914, 243));
 
         jLabel2.setForeground(new java.awt.Color(242, 242, 242));
         jLabel2.setText("Descripción Incidencia");
@@ -157,11 +156,11 @@ public class CreateIncidencia extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 914, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();

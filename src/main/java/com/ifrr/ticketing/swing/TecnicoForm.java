@@ -446,6 +446,13 @@ public class TecnicoForm extends javax.swing.JFrame {
         if (idSeleccionada != null) {
             new ResolverIncidencia(this, true, si, idSeleccionada).setVisible(true);
             updateTable(strFilter);
+        } else {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Por favor, selecciona una incidencia antes de pulsar el botón",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
         }
     }//GEN-LAST:event_botonResolverActionPerformed
 
