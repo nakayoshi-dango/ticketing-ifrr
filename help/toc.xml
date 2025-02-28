@@ -1,0 +1,17 @@
+<toc version="1.0">
+
+   <tocitem text="Índice" target="main">
+      <tocitem text="Menús" target="menus">
+         <tocitem text="Login" target="login" />
+         <tocitem text="Incidencia" target="incidencia" />
+         <tocitem text="Vistas" target="vistas" />
+         <tocitem text="Resolver Incidencia" target="resolver"/>
+      </tocitem>
+      <tocitem text="Usuarios" target="usuarios">
+         <tocitem text="Admin" target="admin" />
+         <tocitem text="Gestor" target="Gestor" />
+         <tocitem text="Técnico" target="tecnico" />
+         <tocitem text="Usuario básico" target="basico" />
+      </tocitem>
+   </tocitem>
+</toc>

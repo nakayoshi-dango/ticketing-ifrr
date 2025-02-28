@@ -1,0 +1,14 @@
+<map version="1.0">
+   <mapID target="main" url="html/main.html" />
+   <mapID target="menus" url="html/menus.html" />
+   <mapID target="login" url="html/login.html" />
+   <mapID target="incidencia" url="html/incidencia.html" />
+   <mapID target="vistas" url="html/vistas.html" />
+   <mapID target="resolver" url="html/resolver.html" />
+   <mapID target="usuarios" url="html/usuarios.html" />
+   <mapID target="admin" url="html/admin.html" />
+   <mapID target="gestor" url="html/gestor.html" />
+   <mapID target="tecnico" url="html/tecnico.html" />
+   <mapID target="basico" url="html/basico.html" />
+
+</map>

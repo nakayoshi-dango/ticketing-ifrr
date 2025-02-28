@@ -1,0 +1,13 @@
+<index version="1.0">
+   <indexitem text="Índice" target="main"/>
+   <indexitem text="Menús" target="menus"/>
+   <indexitem text="Login" target="login"/>
+   <indexitem text="Incidencia" target="incidencia"/>
+   <indexitem text="Vistas" target="vistas"/>
+   <indexitem text="Resolver Incidencia" target="resolver"/>
+   <indexitem text="Usuarios" target="usuarios"/>
+   <indexitem text="Admin" target="admin"/>
+   <indexitem text="Gestor" target="Gestor"/>
+   <indexitem text="Técnico" target="tecnico"/>
+   <indexitem text="Usuario básico" target="basico"/>
+</index>
