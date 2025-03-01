@@ -1,8 +1,5 @@
 package com.ifrr.ticketing;
 
-import com.ifrr.ticketing.entities.Dispositivo;
-import com.ifrr.ticketing.entities.Espacio;
-import com.ifrr.ticketing.entities.Incidencia;
 import com.ifrr.ticketing.entities.Perfil;
 import com.ifrr.ticketing.entities.Usuario;
 import com.ifrr.ticketing.service.ServiceDispositivo;
@@ -10,7 +7,6 @@ import com.ifrr.ticketing.service.ServiceEspacio;
 import com.ifrr.ticketing.service.ServiceIncidencia;
 import com.ifrr.ticketing.service.ServicePerfil;
 import com.ifrr.ticketing.service.ServiceUsuario;
-import java.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.domain.EntityScan;

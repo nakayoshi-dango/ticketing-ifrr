@@ -4,12 +4,15 @@
  */
 package com.ifrr.ticketing.swing;
 
+import com.ifrr.ticketing.entities.Dispositivo;
+import com.ifrr.ticketing.entities.Espacio;
 import com.ifrr.ticketing.entities.Incidencia;
 import com.ifrr.ticketing.service.ServiceDispositivo;
 import com.ifrr.ticketing.service.ServiceEspacio;
 import com.ifrr.ticketing.service.ServiceIncidencia;
 import com.ifrr.ticketing.service.ServiceUsuario;
 import java.time.LocalDate;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
@@ -27,16 +30,6 @@ public class CreateIncidencia extends javax.swing.JDialog {
     /**
      * Creates new form CreateIncidencia
      */
-    public CreateIncidencia(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
-        sd = null;
-        se = null;
-        su = null;
-        si = null;
-        usuarioId = null;
-        initComponents();
-    }
-
     public CreateIncidencia(java.awt.Frame parent, boolean modal, ServiceDispositivo sd, ServiceEspacio se, ServiceUsuario su, ServiceIncidencia si, Integer usuarioId) {
         super(parent, modal);
         this.sd = sd;
@@ -45,6 +38,7 @@ public class CreateIncidencia extends javax.swing.JDialog {
         this.si = si;
         this.usuarioId = usuarioId;
         initComponents();
+        loadComboBoxData();
     }
 
     /**
@@ -63,10 +57,10 @@ public class CreateIncidencia extends javax.swing.JDialog {
         errorLabel = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jTextField5 = new javax.swing.JTextField();
+        dispositivoComboBox = new javax.swing.JComboBox<>();
+        espacioComboBox = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -78,10 +72,10 @@ public class CreateIncidencia extends javax.swing.JDialog {
         jLabel2.setText("Descripción Incidencia");
 
         jLabel3.setForeground(new java.awt.Color(242, 242, 242));
-        jLabel3.setText("ID Dispositivo");
+        jLabel3.setText("Dispositivo");
 
         jLabel4.setForeground(new java.awt.Color(242, 242, 242));
-        jLabel4.setText("ID Espacio");
+        jLabel4.setText("Espacio");
 
         jButton1.setBackground(new java.awt.Color(153, 204, 255));
         jButton1.setText("Crear Incidencia");
@@ -92,10 +86,6 @@ public class CreateIncidencia extends javax.swing.JDialog {
         });
 
         jTextField2.setPreferredSize(new java.awt.Dimension(600, 23));
-
-        jTextField3.setPreferredSize(new java.awt.Dimension(600, 23));
-
-        jTextField4.setPreferredSize(new java.awt.Dimension(600, 23));
 
         jLabel5.setForeground(new java.awt.Color(242, 242, 242));
         jLabel5.setText("Tipo Incidencia");
@@ -117,14 +107,16 @@ public class CreateIncidencia extends javax.swing.JDialog {
                     .addComponent(jLabel4)
                     .addComponent(jLabel5))
                 .addGap(62, 62, 62)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1))
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton1))
+                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(dispositivoComboBox, javax.swing.GroupLayout.Alignment.LEADING, 0, 450, Short.MAX_VALUE)
+                        .addComponent(espacioComboBox, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap(98, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -137,11 +129,11 @@ public class CreateIncidencia extends javax.swing.JDialog {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(dispositivoComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(espacioComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(errorLabel)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -170,12 +162,18 @@ public class CreateIncidencia extends javax.swing.JDialog {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if (!jTextField2.getText().isBlank() && !jTextField5.getText().isBlank()) {
             Incidencia in = new Incidencia(LocalDate.now().toString(), "", "espera", jTextField5.getText(), su.getUsuarioById(2), su.getUsuarioById(usuarioId), su.getUsuarioById(1), jTextField2.getText(), "");
-            if (!jTextField3.getText().isBlank() && !jTextField3.getText().matches("([a-z]|[A-Z])")) {
-                in.setDispositivo(sd.getDispositivoById(Integer.valueOf(jTextField3.getText())));
+
+            int dispositivoIndex = dispositivoComboBox.getSelectedIndex();
+            int espacioIndex = espacioComboBox.getSelectedIndex();
+            if (dispositivoIndex >= 0) {
+                Dispositivo dispositivo = sd.getAllDispositivos().get(dispositivoIndex);
+                in.setDispositivo(dispositivo);
             }
-            if (!jTextField4.getText().isBlank() && !jTextField4.getText().matches("([a-z]|[A-Z])")) {
-                in.setEspacio(se.getEspacioById(Integer.valueOf(jTextField4.getText())));
+            if (espacioIndex >= 0) {
+                Espacio espacio = se.getAllEspacios().get(espacioIndex);
+                in.setEspacio(espacio);
             }
+
             in = si.createIncidencia(in);
             if (in != null) {
                 dispose();
@@ -197,50 +195,22 @@ public class CreateIncidencia extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CreateIncidencia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CreateIncidencia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CreateIncidencia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CreateIncidencia.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    private void loadComboBoxData() {
+        List<Dispositivo> dispositivos = sd.getAllDispositivos();
+        for (Dispositivo d : dispositivos) {
+            dispositivoComboBox.addItem(d.getTipo() + " " + d.getMarca() + " " + d.getModelo() + " " + d.getDescripcion());
         }
-        //</editor-fold>
 
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                CreateIncidencia dialog = new CreateIncidencia(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
+        List<Espacio> espacios = se.getAllEspacios();
+        for (Espacio e : espacios) {
+            espacioComboBox.addItem(e.getDescripcion());
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> dispositivoComboBox;
     private javax.swing.JLabel errorLabel;
+    private javax.swing.JComboBox<String> espacioComboBox;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -248,8 +218,6 @@ public class CreateIncidencia extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     // End of variables declaration//GEN-END:variables
 }

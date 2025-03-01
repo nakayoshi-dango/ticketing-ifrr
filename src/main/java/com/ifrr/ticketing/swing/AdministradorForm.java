@@ -43,14 +43,6 @@ public class AdministradorForm extends javax.swing.JFrame {
     private final ServiceDispositivo sd;
     private final ServiceEspacio se;
 
-    public AdministradorForm() {
-        su = null;
-        si = null;
-        sd = null;
-        se = null;
-        initComponents();
-    }
-
     public AdministradorForm(ServiceUsuario su, ServiceIncidencia si, ServiceDispositivo sd, ServiceEspacio se) {
         this.su = su;
         this.si = si;
@@ -86,6 +78,9 @@ public class AdministradorForm extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         darDeAlta = new javax.swing.JButton();
         detallesIncidencia = new javax.swing.JButton();
+        asignarGestor = new javax.swing.JButton();
+        jTextFieldGestorAsignar = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
         panelIncidencias = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         tablitaIncidencias = new javax.swing.JTable();
@@ -268,39 +263,60 @@ public class AdministradorForm extends javax.swing.JFrame {
             }
         });
 
+        asignarGestor.setBackground(new java.awt.Color(153, 204, 255));
+        asignarGestor.setText("Asignar gestor");
+        asignarGestor.setMaximumSize(new java.awt.Dimension(163, 62));
+        asignarGestor.setMinimumSize(new java.awt.Dimension(163, 62));
+        asignarGestor.setPreferredSize(new java.awt.Dimension(163, 62));
+        asignarGestor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                asignarGestorActionPerformed(evt);
+            }
+        });
+
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setText("Id gestor:");
+
         javax.swing.GroupLayout panelGestorLayout = new javax.swing.GroupLayout(panelGestor);
         panelGestor.setLayout(panelGestorLayout);
         panelGestorLayout.setHorizontalGroup(
             panelGestorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelGestorLayout.createSequentialGroup()
                 .addGap(53, 53, 53)
-                .addGroup(panelGestorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(asignarTecnico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextFieldTecnicoAsignar)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(darDeAlta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(detallesIncidencia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(panelGestorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(panelGestorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(asignarTecnico, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
+                        .addComponent(jTextFieldTecnicoAsignar)
+                        .addComponent(detallesIncidencia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(panelGestorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(asignarGestor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jTextFieldGestorAsignar)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(darDeAlta, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPaneTablaGestor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addGroup(panelGestorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(panelGestorLayout.createSequentialGroup()
-                        .addGroup(panelGestorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jTextFieldTecnicoListar, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextFieldTipo, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(panelGestorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel6)
-                                .addComponent(listarPorTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(listarPorTecnico, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(listarEnEspera, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 61, Short.MAX_VALUE)))
-                .addContainerGap())
-            .addGroup(panelGestorLayout.createSequentialGroup()
-                .addGap(406, 406, 406)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jScrollPaneTablaGestor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(panelGestorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(panelGestorLayout.createSequentialGroup()
+                                .addGroup(panelGestorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jTextFieldTecnicoListar, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jTextFieldTipo, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(panelGestorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel6)
+                                        .addComponent(listarPorTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(listarPorTecnico, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(listarEnEspera, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 61, Short.MAX_VALUE)))
+                        .addContainerGap())
+                    .addGroup(panelGestorLayout.createSequentialGroup()
+                        .addGap(155, 155, 155)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         panelGestorLayout.setVerticalGroup(
             panelGestorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -309,17 +325,6 @@ public class AdministradorForm extends javax.swing.JFrame {
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelGestorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelGestorLayout.createSequentialGroup()
-                        .addGap(51, 51, 51)
-                        .addComponent(darDeAlta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(88, 88, 88)
-                        .addComponent(jLabel5)
-                        .addGap(12, 12, 12)
-                        .addComponent(jTextFieldTecnicoAsignar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(asignarTecnico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(detallesIncidencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(panelGestorLayout.createSequentialGroup()
                         .addGap(54, 54, 54)
                         .addComponent(jLabel6)
@@ -337,7 +342,24 @@ public class AdministradorForm extends javax.swing.JFrame {
                         .addComponent(jTextFieldTecnicoListar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(listarPorTecnico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPaneTablaGestor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(panelGestorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(panelGestorLayout.createSequentialGroup()
+                            .addComponent(darDeAlta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jLabel7)
+                            .addGap(7, 7, 7)
+                            .addComponent(jTextFieldGestorAsignar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(asignarGestor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jLabel5)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jTextFieldTecnicoAsignar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(asignarTecnico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(detallesIncidencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPaneTablaGestor, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(87, Short.MAX_VALUE))
         );
 
@@ -814,15 +836,27 @@ public class AdministradorForm extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void asignarTecnicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_asignarTecnicoActionPerformed
+        asignar(true);
+    }//GEN-LAST:event_asignarTecnicoActionPerformed
+
+    public void asignar(boolean tecnico) {
         if (idSeleccionada != null) {
-            if (!jTextFieldTecnicoAsignar.getText().matches(".*[a-zA-Z].*")) {
-                Incidencia seleccionada = si.getIncidenciaById(idSeleccionada);
-                if (!jTextFieldTecnicoAsignar.getText().isBlank() && !seleccionada.getTecnico().getId().equals(Integer.valueOf(jTextFieldTecnicoAsignar.getText()))) {
-                    seleccionada.setTecnico(su.getUsuarioById(Integer.valueOf(jTextFieldTecnicoAsignar.getText())));
-                    si.updateIncidencia(seleccionada);
+            Incidencia seleccionada = si.getIncidenciaById(idSeleccionada);
+            if (seleccionada != null) {
+                if (!jTextFieldTecnicoAsignar.getText().matches(".*[a-zA-Z].*")) {
+                    if (tecnico && !jTextFieldTecnicoAsignar.getText().isBlank() && !seleccionada.getTecnico().getId().equals(Integer.valueOf(jTextFieldTecnicoAsignar.getText()))) {
+                        seleccionada.setTecnico(su.getUsuarioById(Integer.valueOf(jTextFieldTecnicoAsignar.getText())));
+                        si.updateIncidencia(seleccionada);
+                    }
                 }
-                updateTable(strFilterGestor, "gestor");
+                if (!jTextFieldGestorAsignar.getText().matches(".*[a-zA-Z].*")) {
+                    if (!tecnico && !jTextFieldGestorAsignar.getText().isBlank() && !seleccionada.getGestor().getId().equals(Integer.valueOf(jTextFieldGestorAsignar.getText()))) {
+                        seleccionada.setGestor(su.getUsuarioById(Integer.valueOf(jTextFieldGestorAsignar.getText())));
+                        si.updateIncidencia(seleccionada);
+                    }
+                }
             }
+            updateTable(strFilterGestor, "gestor");
         } else {
             JOptionPane.showMessageDialog(
                     null,
@@ -831,7 +865,7 @@ public class AdministradorForm extends javax.swing.JFrame {
                     JOptionPane.ERROR_MESSAGE
             );
         }
-    }//GEN-LAST:event_asignarTecnicoActionPerformed
+    }
 
     private void listarEnEsperaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listarEnEsperaActionPerformed
         strFilterGestor = "espera";
@@ -899,16 +933,16 @@ public class AdministradorForm extends javax.swing.JFrame {
             if (seleccionada.getDispositivo() != null) {
                 dispositivo = seleccionada.getDispositivo().getMarca() + " " + seleccionada.getDispositivo().getModelo();
             }
-            if (seleccionada.getEspacio()!= null) {
+            if (seleccionada.getEspacio() != null) {
                 espacio = seleccionada.getEspacio().getDescripcion();
             }
-            if (seleccionada.getTecnico()!= null) {
+            if (seleccionada.getTecnico() != null) {
                 tecnico = seleccionada.getTecnico().getNombreApellidos();
             }
-            if (seleccionada.getGestor()!= null) {
+            if (seleccionada.getGestor() != null) {
                 gestor = seleccionada.getGestor().getNombreApellidos();
             }
-            if (seleccionada.getUsuario()!= null) {
+            if (seleccionada.getUsuario() != null) {
                 usuario = seleccionada.getUsuario().getNombreApellidos();
             }
             JOptionPane.showMessageDialog(
@@ -928,7 +962,7 @@ public class AdministradorForm extends javax.swing.JFrame {
                     "Detalles de incidencia",
                     JOptionPane.INFORMATION_MESSAGE
             );
-            updateTable(strFilterGestor,"gestor");
+            updateTable(strFilterGestor, "gestor");
         } else {
             JOptionPane.showMessageDialog(
                     null,
@@ -1225,6 +1259,10 @@ public class AdministradorForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_borrarEspacioActionPerformed
 
+    private void asignarGestorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_asignarGestorActionPerformed
+        asignar(false);
+    }//GEN-LAST:event_asignarGestorActionPerformed
+
     private void updateTable(String filtro, String panel) {
         try {
             DefaultTableModel dtm;
@@ -1353,47 +1391,13 @@ public class AdministradorForm extends javax.swing.JFrame {
         }
     }
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AdministradorForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AdministradorForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AdministradorForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AdministradorForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new AdministradorForm().setVisible(true);
-            }
-        });
-    }
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-M-d");
     Integer idSeleccionada;
     String strFilterGestor = "espera";
     String strFilterIncidencias = "todas";
     String strFilterUsuarios = "todos";
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton asignarGestor;
     private javax.swing.JButton asignarTecnico;
     private javax.swing.JButton borrarDispositivo;
     private javax.swing.JButton borrarEspacio;
@@ -1431,6 +1435,7 @@ public class AdministradorForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JScrollPane jScrollPane4;
@@ -1439,6 +1444,7 @@ public class AdministradorForm extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JScrollPane jScrollPaneTablaGestor;
     private javax.swing.JTabbedPane jTabbedPane;
+    private javax.swing.JTextField jTextFieldGestorAsignar;
     private javax.swing.JTextField jTextFieldTecnicoAsignar;
     private javax.swing.JTextField jTextFieldTecnicoListar;
     private javax.swing.JTextField jTextFieldTipo;
