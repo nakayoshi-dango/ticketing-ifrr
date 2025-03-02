@@ -35,12 +35,11 @@ public class UsuarioForm extends javax.swing.JFrame {
     private final ServiceIncidencia si;
     private final Integer usuarioId;
     private HelpBroker hb;
-    
+
     /**
      * Creates new form UsuarioBasico
      */
-    
-      private void initHelp() {
+    private void initHelp() {
         try {
             URL hsURL = getClass().getResource("/help/help_set.hs");
             if (hsURL == null) {
@@ -100,7 +99,6 @@ public class UsuarioForm extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
-
 
     public UsuarioForm(ServiceDispositivo sd, ServiceEspacio se, ServiceUsuario su, ServiceIncidencia si, Integer usuarioId) {
         this.sd = sd;
@@ -293,6 +291,26 @@ public class UsuarioForm extends javax.swing.JFrame {
     private void BotonConsultarInciActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonConsultarInciActionPerformed
         if (idSeleccionada != null) {
             Incidencia seleccionada = si.getIncidenciaById(idSeleccionada);
+            String dispositivo = "";
+            String espacio = "";
+            String tecnico = "";
+            String gestor = "";
+            String usuario = "";
+            if (seleccionada.getDispositivo() != null) {
+                dispositivo = seleccionada.getDispositivo().getMarca() + " " + seleccionada.getDispositivo().getModelo();
+            }
+            if (seleccionada.getEspacio() != null) {
+                espacio = seleccionada.getEspacio().getDescripcion();
+            }
+            if (seleccionada.getTecnico() != null) {
+                tecnico = seleccionada.getTecnico().getNombreApellidos();
+            }
+            if (seleccionada.getGestor() != null) {
+                gestor = seleccionada.getGestor().getNombreApellidos();
+            }
+            if (seleccionada.getUsuario() != null) {
+                usuario = seleccionada.getUsuario().getNombreApellidos();
+            }
             JOptionPane.showMessageDialog(
                     null,
                     "ID: " + seleccionada.getId()
@@ -302,11 +320,11 @@ public class UsuarioForm extends javax.swing.JFrame {
                     + "\nFecha de Entrada: " + seleccionada.getfEntrada()
                     + "\nFecha de Cierre: " + seleccionada.getfCierre()
                     + "\nDescripción Solución: " + seleccionada.getDescSolucion()
-                    + "\nDispositivo: " + seleccionada.getDispositivo().getMarca() + " " + seleccionada.getDispositivo().getModelo()
-                    + "\nEspacio: " + seleccionada.getEspacio().getDescripcion()
-                    + "\nTécnico: " + seleccionada.getTecnico().getNombreApellidos()
-                    + "\nGestor: " + seleccionada.getGestor().getNombreApellidos()
-                    + "\nUsuario: " + seleccionada.getUsuario().getNombreApellidos(),
+                    + "\nDispositivo: " + dispositivo
+                    + "\nEspacio: " + espacio
+                    + "\nTécnico: " + tecnico
+                    + "\nGestor: " + gestor
+                    + "\nUsuario: " + usuario,
                     "Detalles de incidencia",
                     JOptionPane.INFORMATION_MESSAGE
             );
@@ -365,7 +383,6 @@ public class UsuarioForm extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }//GEN-LAST:event_BotonSolicitarActionPerformed
-
 
     Integer idSeleccionada;
     // Variables declaration - do not modify//GEN-BEGIN:variables
