@@ -7,14 +7,8 @@ import com.ifrr.ticketing.service.ServiceIncidencia;
 import com.ifrr.ticketing.service.ServiceUsuario;
 import java.awt.Component;
 import java.awt.Font;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.net.URL;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -43,6 +37,7 @@ public class GestorForm extends javax.swing.JFrame {
     private final ServiceUsuario su;
     private final ServiceIncidencia si;
     private final Integer usuarioId;
+    private HelpBroker hb;
 
     public GestorForm(ServiceUsuario su, ServiceIncidencia si, Integer usuarioId) {
         this.su = su;
@@ -50,6 +45,20 @@ public class GestorForm extends javax.swing.JFrame {
         this.usuarioId = usuarioId;
         initComponents();
         loadComboBoxData();
+        initHelp();
+    }
+
+    private void initHelp() {
+        try {
+            File f = new File("help" + File.separator + "help_set.hs");
+            URL hsURL = f.toURI().toURL();
+            HelpSet hs = new HelpSet(getClass().getClassLoader(), hsURL);
+            hb = hs.createHelpBroker();
+            hb.enableHelpOnButton(jMenuItem1, "main", hs
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void loadComboBoxData() {
@@ -112,7 +121,6 @@ public class GestorForm extends javax.swing.JFrame {
         jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(978, 571));
 
         jPanel1.setBackground(new java.awt.Color(102, 102, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(978, 571));
@@ -326,11 +334,6 @@ public class GestorForm extends javax.swing.JFrame {
         jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/info.png"))); // NOI18N
         jMenuItem1.setText("Ayuda");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
-            }
-        });
         menuAyuda.add(jMenuItem1);
 
         jMenuBar1.add(menuAyuda);
@@ -350,18 +353,6 @@ public class GestorForm extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        try {
-            File f = new File("help" + File.separator + "help_set.hs");
-            URL hsURL = f.toURI().toURL();
-            HelpSet hs = new HelpSet(getClass().getClassLoader(), hsURL);
-            HelpBroker hb = hs.createHelpBroker();
-            hb.enableHelpOnButton(jMenuItem1, "main", hs);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void detallesIncidenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_detallesIncidenciaActionPerformed
         if (idSeleccionada != null) {
@@ -462,7 +453,7 @@ public class GestorForm extends javax.swing.JFrame {
     }//GEN-LAST:event_listarEnEsperaActionPerformed
 
     private void listarPorTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listarPorTipoActionPerformed
-        if ((String) tipoComboBox.getSelectedItem()!=null) {
+        if ((String) tipoComboBox.getSelectedItem() != null) {
             strFilter = "tipo";
             updateTable(strFilter);
         } else {
@@ -476,7 +467,7 @@ public class GestorForm extends javax.swing.JFrame {
     }//GEN-LAST:event_listarPorTipoActionPerformed
 
     private void listarPorTecnicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listarPorTecnicoActionPerformed
-        if ((String) listTecnicoComboBox.getSelectedItem()!=null) {
+        if ((String) listTecnicoComboBox.getSelectedItem() != null) {
             strFilter = "tecnico";
             updateTable(strFilter);
         } else {

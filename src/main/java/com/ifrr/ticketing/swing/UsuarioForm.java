@@ -7,15 +7,9 @@ import com.ifrr.ticketing.service.ServiceIncidencia;
 import com.ifrr.ticketing.service.ServiceUsuario;
 import java.awt.Component;
 import java.awt.Font;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import javax.help.HelpBroker;
@@ -40,10 +34,25 @@ public class UsuarioForm extends javax.swing.JFrame {
     private final ServiceUsuario su;
     private final ServiceIncidencia si;
     private final Integer usuarioId;
-
+    private HelpBroker hb;
+    
     /**
      * Creates new form UsuarioBasico
      */
+    
+      private void initHelp() {
+        try {
+            File f = new File("help" + File.separator + "help_set.hs");
+            URL hsURL = f.toURI().toURL();
+            HelpSet hs = new HelpSet(getClass().getClassLoader(), hsURL);
+            hb = hs.createHelpBroker();
+            hb.enableHelpOnButton(jMenuItem1, "main", hs
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private void updateTable() {
         try {
             DefaultTableModel dtm = new DefaultTableModel(new Object[][]{}, new String[]{"ID", "Estado", "Desc."});
@@ -98,6 +107,7 @@ public class UsuarioForm extends javax.swing.JFrame {
         this.si = si;
         this.usuarioId = usuarioId;
         initComponents();
+        initHelp();
     }
 
     /**
@@ -252,11 +262,6 @@ public class UsuarioForm extends javax.swing.JFrame {
         jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/info.png"))); // NOI18N
         jMenuItem1.setText("Ayuda");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
-            }
-        });
         menuAyuda.add(jMenuItem1);
 
         jMenuBar1.add(menuAyuda);
@@ -358,19 +363,6 @@ public class UsuarioForm extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }//GEN-LAST:event_BotonSolicitarActionPerformed
-
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        try {
-            File f = new File("help" + File.separator + "help_set.hs");
-            URL hsURL = f.toURI().toURL();
-            HelpSet hs = new HelpSet(getClass().getClassLoader(), hsURL);
-            HelpBroker hb = hs.createHelpBroker();
-            hb.enableHelpOnButton(jMenuItem1, "main", hs);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
 
     Integer idSeleccionada;

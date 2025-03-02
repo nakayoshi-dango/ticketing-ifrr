@@ -44,6 +44,7 @@ public class AdministradorForm extends javax.swing.JFrame {
     private final ServiceIncidencia si;
     private final ServiceDispositivo sd;
     private final ServiceEspacio se;
+    private HelpBroker hb;
 
     public AdministradorForm(ServiceUsuario su, ServiceIncidencia si, ServiceDispositivo sd, ServiceEspacio se) {
         this.su = su;
@@ -52,6 +53,20 @@ public class AdministradorForm extends javax.swing.JFrame {
         this.se = se;
         initComponents();
         loadComboBoxData();
+        initHelp();
+    }
+    
+    private void initHelp() {
+        try {
+            File f = new File("help" + File.separator + "help_set.hs");
+            URL hsURL = f.toURI().toURL();
+            HelpSet hs = new HelpSet(getClass().getClassLoader(), hsURL);
+            hb = hs.createHelpBroker();
+            hb.enableHelpOnButton(jMenuItem1, "main", hs
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -840,11 +855,6 @@ public class AdministradorForm extends javax.swing.JFrame {
         jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         jMenuItem1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/info.png"))); // NOI18N
         jMenuItem1.setText("Ayuda");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
-            }
-        });
         menuAyuda.add(jMenuItem1);
 
         jMenuBar1.add(menuAyuda);
@@ -867,18 +877,6 @@ public class AdministradorForm extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        try {
-            File f = new File("help" + File.separator + "help_set.hs");
-            URL hsURL = f.toURI().toURL();
-            HelpSet hs = new HelpSet(getClass().getClassLoader(), hsURL);
-            HelpBroker hb = hs.createHelpBroker();
-            hb.enableHelpOnButton(jMenuItem1, "main", hs);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void asignarTecnicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_asignarTecnicoActionPerformed
         asignar(true);
@@ -1417,7 +1415,7 @@ public class AdministradorForm extends javax.swing.JFrame {
                 LocalDate a, b, c;
                 for (Incidencia incidencia : incidencias) {
                     if (panel.equals("gestor")) {
-                        if (filtro.equals("todas") 
+                        if (filtro.equals("todas")
                                 || (filtro.equals("espera") && incidencia.getEstado().contains("espera"))
                                 || (filtro.equals("tipo") && Objects.equals(incidencia.getTipo(), (String) tipoComboBox.getSelectedItem()))
                                 || (filtro.equals("tecnico") && Objects.equals(incidencia.getTecnico().getId(), Integer.valueOf(((String) listTecnicoComboBox.getSelectedItem()).split(";")[0])))) {
