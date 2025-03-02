@@ -68,6 +68,34 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+            <!-- Plugin para copiar recursos, como el archivo de base de datos y la carpeta help -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.3.1</version>
+                <executions>
+                    <execution>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <resources>
+                                <!-- Copiar la carpeta 'help' tal como está -->
+                                <resource>
+                                    <directory>${project.basedir}/help</directory> <!-- Ruta a la carpeta 'help' -->
+                                    <targetPath>help</targetPath> <!-- Especificar que debe ir en la raíz del JAR -->
+                                    <includes>
+                                        <include>**/*</include> <!-- Incluir todos los archivos de la carpeta 'help' -->
+                                    </includes>
+                                </resource>
+                            </resources>
+                            <!-- Especificar el directorio de salida: 'target/classes' -->
+                            <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 

@@ -42,12 +42,14 @@ public class UsuarioForm extends javax.swing.JFrame {
     
       private void initHelp() {
         try {
-            File f = new File("help" + File.separator + "help_set.hs");
-            URL hsURL = f.toURI().toURL();
+            URL hsURL = getClass().getResource("/help/help_set.hs");
+            if (hsURL == null) {
+                System.out.println("El archivo help_set.hs no se pudo encontrar.");
+                return;
+            }
             HelpSet hs = new HelpSet(getClass().getClassLoader(), hsURL);
             hb = hs.createHelpBroker();
-            hb.enableHelpOnButton(jMenuItem1, "main", hs
-            );
+            hb.enableHelpOnButton(jMenuItem1, "main", hs);
         } catch (Exception e) {
             e.printStackTrace();
         }
