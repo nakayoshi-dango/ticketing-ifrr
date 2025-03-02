@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.ifrr</groupId>
     <artifactId>ticketing-ifrr</artifactId>
-    <version>0.1-ALFA</version>
+    <version>1.0</version>
     <name>ticketing-ifrr</name>
     <description>Proyecto de la asignatura Desarrollo de Interfaces</description>
     <url/>
