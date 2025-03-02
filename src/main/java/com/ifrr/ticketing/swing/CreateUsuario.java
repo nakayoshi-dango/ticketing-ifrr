@@ -109,18 +109,22 @@ public class CreateUsuario extends javax.swing.JDialog {
         textTelefono.setPreferredSize(new java.awt.Dimension(600, 23));
         jPanel1.add(textTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 180, -1, -1));
 
+        checkUsuario.setBackground(new java.awt.Color(102, 102, 255));
         checkUsuario.setForeground(new java.awt.Color(242, 242, 242));
         checkUsuario.setText("Usuario básico");
         jPanel1.add(checkUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 220, -1, -1));
 
+        checkTecnico.setBackground(new java.awt.Color(102, 102, 255));
         checkTecnico.setForeground(new java.awt.Color(242, 242, 242));
         checkTecnico.setText("Técnico");
         jPanel1.add(checkTecnico, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 220, -1, -1));
 
+        checkGestor.setBackground(new java.awt.Color(102, 102, 255));
         checkGestor.setForeground(new java.awt.Color(242, 242, 242));
         checkGestor.setText("Gestor");
         jPanel1.add(checkGestor, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 220, -1, -1));
 
+        checkAdministrador.setBackground(new java.awt.Color(102, 102, 255));
         checkAdministrador.setForeground(new java.awt.Color(242, 242, 242));
         checkAdministrador.setText("Administrador");
         jPanel1.add(checkAdministrador, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 220, -1, -1));

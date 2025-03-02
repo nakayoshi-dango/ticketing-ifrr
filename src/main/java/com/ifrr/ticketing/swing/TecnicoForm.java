@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import javax.help.HelpBroker;
@@ -41,22 +42,24 @@ public class TecnicoForm extends javax.swing.JFrame {
 
             LocalDate a, b, c;
             for (Incidencia incidencia : incidencias) {
-                if (filtro.equals("asignadas") && incidencia.getTecnico().getId().equals(usuarioId) && !incidencia.getEstado().contains("espera")) {
-                    arr = new Object[]{incidencia.getId(), incidencia.getEstado(), incidencia.getDescIncidencia()};
-                    dtm.addRow(arr);
-                } else if (filtro.equals("cerradas") && incidencia.getEstado().contains("cerrada") && !incidencia.getfCierre().isBlank()) {
-                    if (jFormattedTextField1.getText().matches("\\d{4}-(1[0-2]|[1-9])-(3[01]|[12][0-9]|[1-9])$") && jFormattedTextField2.getText().matches("\\d{4}-(1[0-2]|[1-9])-(3[01]|[12][0-9]|[1-9])$")) {
-                        a = LocalDate.parse(jFormattedTextField1.getText(), formatter);
-                        b = LocalDate.parse(jFormattedTextField2.getText(), formatter);
-                        c = LocalDate.parse(incidencia.getfCierre(), formatter);
-                        if (c.isAfter(a) && c.isBefore(b)) {
-                            arr = new Object[]{incidencia.getId(), incidencia.getEstado(), incidencia.getDescIncidencia()};
-                            dtm.addRow(arr);
+                if (incidencia.getTecnico().getId().equals(usuarioId)) {
+                    if (filtro.equals("asignadas") && !incidencia.getEstado().contains("espera")) {
+                        arr = new Object[]{incidencia.getId(), incidencia.getEstado(), incidencia.getDescIncidencia()};
+                        dtm.addRow(arr);
+                    } else if (filtro.equals("cerradas") && incidencia.getEstado().contains("cerrada") && !incidencia.getfCierre().isBlank()) {
+                        if (jFormattedTextField1.getText().matches("\\d{4}-(1[0-2]|[1-9])-(3[01]|[12][0-9]|[1-9])$") && jFormattedTextField2.getText().matches("\\d{4}-(1[0-2]|[1-9])-(3[01]|[12][0-9]|[1-9])$")) {
+                            a = LocalDate.parse(jFormattedTextField1.getText(), formatter);
+                            b = LocalDate.parse(jFormattedTextField2.getText(), formatter);
+                            c = LocalDate.parse(incidencia.getfCierre(), formatter);
+                            if (c.isAfter(a) && c.isBefore(b)) {
+                                arr = new Object[]{incidencia.getId(), incidencia.getEstado(), incidencia.getDescIncidencia()};
+                                dtm.addRow(arr);
+                            }
                         }
+                    } else if (!incidencia.getEstado().contains("espera") && filtro.equals("tipo") && Objects.equals(incidencia.getTipo(), (String) tipoComboBox.getSelectedItem())) {
+                        arr = new Object[]{incidencia.getId(), incidencia.getEstado(), incidencia.getDescIncidencia()};
+                        dtm.addRow(arr);
                     }
-                } else if (filtro.equals("tipo") && Objects.equals(incidencia.getTipo(), cajaInciPorTipo.getText())) {
-                    arr = new Object[]{incidencia.getId(), incidencia.getEstado(), incidencia.getDescIncidencia()};
-                    dtm.addRow(arr);
                 }
             }
             tablita.setModel(dtm);
@@ -71,11 +74,11 @@ public class TecnicoForm extends javax.swing.JFrame {
         }
     }
 
-
     public TecnicoForm(ServiceIncidencia si, Integer usuarioId) {
         this.si = si;
         this.usuarioId = usuarioId;
         initComponents();
+        loadComboBoxData();
     }
 
     /**
@@ -97,12 +100,12 @@ public class TecnicoForm extends javax.swing.JFrame {
         tablita = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        cajaInciPorTipo = new javax.swing.JTextField();
         jFormattedTextField1 = new javax.swing.JFormattedTextField();
         jFormattedTextField2 = new javax.swing.JFormattedTextField();
         botonListarAsignadas = new javax.swing.JButton();
         botonDetalles = new javax.swing.JButton();
         botonCerrarConExito = new javax.swing.JButton();
+        tipoComboBox = new javax.swing.JComboBox<>();
         jMenuBar1 = new javax.swing.JMenuBar();
         menuAyuda = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -249,10 +252,12 @@ public class TecnicoForm extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(104, 104, 104)
+                        .addComponent(botonListarCerradas, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(47, 47, 47)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(cajaInciPorTipo)
                                 .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(jPanel1Layout.createSequentialGroup()
@@ -261,10 +266,8 @@ public class TecnicoForm extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(104, 104, 104)
-                        .addComponent(botonListarCerradas, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(tipoComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(57, 57, 57))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(457, 457, 457)
@@ -287,8 +290,8 @@ public class TecnicoForm extends javax.swing.JFrame {
                         .addGap(51, 51, 51)
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(cajaInciPorTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(tipoComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20)
                         .addComponent(botonListarPorTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(19, 19, 19)
@@ -338,6 +341,16 @@ public class TecnicoForm extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void loadComboBoxData() {
+        HashSet<String> tipos = new HashSet<>();
+        for (Incidencia in : si.getAllIncidencias()) {
+            tipos.add(in.getTipo());
+        }
+        for (String tipo : tipos) {
+            tipoComboBox.addItem(tipo);
+        }
+    }
 
     private void botonDetallesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonDetallesActionPerformed
         if (idSeleccionada != null) {
@@ -416,7 +429,7 @@ public class TecnicoForm extends javax.swing.JFrame {
     }//GEN-LAST:event_botonListarCerradasActionPerformed
 
     private void botonListarPorTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonListarPorTipoActionPerformed
-        if (!cajaInciPorTipo.getText().isBlank()) {
+        if ((String) tipoComboBox.getSelectedItem() != null) {
             strFilter = "tipo";
             updateTable(strFilter);
         } else {
@@ -497,7 +510,6 @@ public class TecnicoForm extends javax.swing.JFrame {
     private javax.swing.JButton botonListarCerradas;
     private javax.swing.JButton botonListarPorTipo;
     private javax.swing.JButton botonResolver;
-    private javax.swing.JTextField cajaInciPorTipo;
     private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JFormattedTextField jFormattedTextField2;
     private javax.swing.JLabel jLabel1;
@@ -509,5 +521,6 @@ public class TecnicoForm extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JMenu menuAyuda;
     private javax.swing.JTable tablita;
+    private javax.swing.JComboBox<String> tipoComboBox;
     // End of variables declaration//GEN-END:variables
 }

@@ -73,7 +73,6 @@ public class Incidencia implements Serializable {
         this.descSolucion = descSolucion;
     }
 
-
     public Integer getId() {
         return id;
     }

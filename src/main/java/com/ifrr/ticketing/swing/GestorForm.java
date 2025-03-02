@@ -1,6 +1,8 @@
 package com.ifrr.ticketing.swing;
 
 import com.ifrr.ticketing.entities.Incidencia;
+import com.ifrr.ticketing.entities.Perfil;
+import com.ifrr.ticketing.entities.Usuario;
 import com.ifrr.ticketing.service.ServiceIncidencia;
 import com.ifrr.ticketing.service.ServiceUsuario;
 import java.awt.Component;
@@ -17,6 +19,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import javax.help.HelpBroker;
 import javax.help.HelpSet;
 import javax.swing.JOptionPane;
@@ -46,6 +49,35 @@ public class GestorForm extends javax.swing.JFrame {
         this.si = si;
         this.usuarioId = usuarioId;
         initComponents();
+        loadComboBoxData();
+    }
+
+    private void loadComboBoxData() {
+        List<Usuario> usuarios = su.getAllUsuarios();
+        for (Usuario u : usuarios) {
+            Set<Perfil> perfiles = u.getPerfiles();
+            boolean esTecnico = false;
+
+            for (Perfil p : perfiles) {
+                if (p.getId() == 2) {
+                    esTecnico = true;
+                }
+            }
+
+            String item = u.getId() + ";" + u.getNombreApellidos() + ";" + u.getCorreo();
+
+            if (esTecnico) {
+                tecnicoComboBox.addItem(item);
+                listTecnicoComboBox.addItem(item);
+            }
+        }
+        HashSet<String> tipos = new HashSet<>();
+        for (Incidencia in : si.getAllIncidencias()) {
+            tipos.add(in.getTipo());
+        }
+        for (String tipo : tipos) {
+            tipoComboBox.addItem(tipo);
+        }
     }
 
     /**
@@ -66,21 +98,24 @@ public class GestorForm extends javax.swing.JFrame {
         listarPorTipo = new javax.swing.JButton();
         listarPorTecnico = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
-        jTextFieldTipo = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jTextFieldTecnicoListar = new javax.swing.JTextField();
-        jTextFieldTecnicoAsignar = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         darDeAlta = new javax.swing.JButton();
         detallesIncidencia = new javax.swing.JButton();
+        tecnicoComboBox = new javax.swing.JComboBox<>();
+        listTecnicoComboBox = new javax.swing.JComboBox<>();
+        tipoComboBox = new javax.swing.JComboBox<>();
+        listarAsignadas = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         menuAyuda = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setPreferredSize(new java.awt.Dimension(978, 571));
 
         jPanel1.setBackground(new java.awt.Color(102, 102, 255));
+        jPanel1.setPreferredSize(new java.awt.Dimension(978, 571));
 
         jLabel2.setBackground(new java.awt.Color(255, 255, 255));
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -123,6 +158,11 @@ public class GestorForm extends javax.swing.JFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        tablita.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                tablitaMousePressed(evt);
             }
         });
         jScrollPaneTablaGestor.setViewportView(tablita);
@@ -195,75 +235,90 @@ public class GestorForm extends javax.swing.JFrame {
             }
         });
 
+        listarAsignadas.setBackground(new java.awt.Color(153, 204, 255));
+        listarAsignadas.setText("Incidencias asignadas");
+        listarAsignadas.setMaximumSize(new java.awt.Dimension(219, 54));
+        listarAsignadas.setMinimumSize(new java.awt.Dimension(219, 54));
+        listarAsignadas.setPreferredSize(new java.awt.Dimension(219, 54));
+        listarAsignadas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                listarAsignadasActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(53, 53, 53)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(asignarTecnico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextFieldTecnicoAsignar)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(darDeAlta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(detallesIncidencia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPaneTablaGestor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(asignarTecnico, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(darDeAlta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(detallesIncidencia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(tecnicoComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPaneTablaGestor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(386, 386, 386)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(listarAsignadas, javax.swing.GroupLayout.DEFAULT_SIZE, 239, Short.MAX_VALUE)
                     .addComponent(listarPorTipo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextFieldTipo)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(listarEnEspera, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(listarPorTecnico, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextFieldTecnicoListar)
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(listTecnicoComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel6)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(379, 379, 379))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(tipoComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(34, 34, 34))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(35, 35, 35)
+                .addContainerGap()
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(51, 51, 51)
-                        .addComponent(darDeAlta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(88, 88, 88)
-                        .addComponent(jLabel5)
-                        .addGap(12, 12, 12)
-                        .addComponent(jTextFieldTecnicoAsignar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(asignarTecnico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(detallesIncidencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(42, 42, 42)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGap(51, 51, 51)
+                            .addComponent(darDeAlta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(88, 88, 88)
+                            .addComponent(jLabel5)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(tecnicoComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(24, 24, 24)
+                            .addComponent(asignarTecnico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(detallesIncidencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPaneTablaGestor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(listarEnEspera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(listarAsignadas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
+                        .addComponent(listarEnEspera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextFieldTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
+                        .addComponent(tipoComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(listarPorTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldTecnicoListar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(listTecnicoComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(listarPorTecnico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPaneTablaGestor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(19, Short.MAX_VALUE))
+                        .addComponent(listarPorTecnico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(48, Short.MAX_VALUE))
         );
 
         menuAyuda.setText("Ayuda");
@@ -290,7 +345,7 @@ public class GestorForm extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 547, Short.MAX_VALUE)
         );
 
         pack();
@@ -362,9 +417,11 @@ public class GestorForm extends javax.swing.JFrame {
     private void darDeAltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_darDeAltaActionPerformed
         if (idSeleccionada != null) {
             Incidencia seleccionada = si.getIncidenciaById(idSeleccionada);
-            if (!seleccionada.getDescSolucion().isBlank() && !seleccionada.getTipo().isBlank()) {
-                seleccionada.setEstado("aprobada");
-                si.updateIncidencia(seleccionada);
+            if (seleccionada != null) {
+                if (seleccionada.getEstado().contains("espera")) {
+                    seleccionada.setEstado("aprobada");
+                    si.updateIncidencia(seleccionada);
+                }
             }
             updateTable(strFilter);
         } else {
@@ -379,14 +436,16 @@ public class GestorForm extends javax.swing.JFrame {
 
     private void asignarTecnicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_asignarTecnicoActionPerformed
         if (idSeleccionada != null) {
-            if (!jTextFieldTecnicoAsignar.getText().matches(".*[a-zA-Z].*")) {
-                Incidencia seleccionada = si.getIncidenciaById(idSeleccionada);
-                if (!seleccionada.getTecnico().getId().equals(Integer.valueOf(jTextFieldTecnicoAsignar.getText())) && !jTextFieldTecnicoAsignar.getText().isBlank()) {
-                    seleccionada.setTecnico(su.getUsuarioById(Integer.valueOf(jTextFieldTecnicoAsignar.getText())));
+            Incidencia seleccionada = si.getIncidenciaById(idSeleccionada);
+            if (seleccionada != null) {
+                String selectedTecnico = (String) tecnicoComboBox.getSelectedItem();
+                if (selectedTecnico != null) {
+                    int tecnicoId = Integer.parseInt(selectedTecnico.split(";")[0]);
+                    seleccionada.setTecnico(su.getUsuarioById(tecnicoId));
                     si.updateIncidencia(seleccionada);
                 }
-                updateTable(strFilter);
             }
+            updateTable(strFilter);
         } else {
             JOptionPane.showMessageDialog(
                     null,
@@ -403,7 +462,7 @@ public class GestorForm extends javax.swing.JFrame {
     }//GEN-LAST:event_listarEnEsperaActionPerformed
 
     private void listarPorTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listarPorTipoActionPerformed
-        if (!jTextFieldTipo.getText().isBlank()) {
+        if ((String) tipoComboBox.getSelectedItem()!=null) {
             strFilter = "tipo";
             updateTable(strFilter);
         } else {
@@ -417,7 +476,7 @@ public class GestorForm extends javax.swing.JFrame {
     }//GEN-LAST:event_listarPorTipoActionPerformed
 
     private void listarPorTecnicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listarPorTecnicoActionPerformed
-        if (!jTextFieldTecnicoListar.getText().isBlank() && !jTextFieldTecnicoListar.getText().matches(".*[a-zA-Z].*")) {
+        if ((String) listTecnicoComboBox.getSelectedItem()!=null) {
             strFilter = "tecnico";
             updateTable(strFilter);
         } else {
@@ -430,6 +489,17 @@ public class GestorForm extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_listarPorTecnicoActionPerformed
 
+    private void tablitaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablitaMousePressed
+        JTable source = (JTable) evt.getSource();
+        int fila = source.rowAtPoint(evt.getPoint());
+        idSeleccionada = (Integer) source.getModel().getValueAt(fila, 0);
+    }//GEN-LAST:event_tablitaMousePressed
+
+    private void listarAsignadasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listarAsignadasActionPerformed
+        strFilter = "todas";
+        updateTable(strFilter);
+    }//GEN-LAST:event_listarAsignadasActionPerformed
+
     private void updateTable(String filtro) {
         try {
             DefaultTableModel dtm = new DefaultTableModel(new Object[][]{}, new String[]{"ID", "Estado", "Desc."});
@@ -438,9 +508,10 @@ public class GestorForm extends javax.swing.JFrame {
             for (Incidencia incidencia : incidencias) {
                 if (incidencia.getGestor() != null) {
                     if (incidencia.getGestor().getId().equals(usuarioId)) {
-                        if ((filtro.equals("espera") && incidencia.getEstado().contains("espera"))
-                                || (filtro.equals("tipo") && Objects.equals(incidencia.getTipo(), jTextFieldTipo.getText()))
-                                || (filtro.equals("tecnico") && Objects.equals(incidencia.getTecnico().getId(), Integer.valueOf(jTextFieldTecnicoListar.getText())))) {
+                        if (filtro.equals("todas")
+                                || (filtro.equals("espera") && incidencia.getEstado().contains("espera"))
+                                || (filtro.equals("tipo") && Objects.equals(incidencia.getTipo(), (String) tipoComboBox.getSelectedItem()))
+                                || (filtro.equals("tecnico") && Objects.equals(incidencia.getTecnico().getId(), Integer.valueOf(((String) listTecnicoComboBox.getSelectedItem()).split(";")[0])))) {
                             arr = new Object[]{incidencia.getId(), incidencia.getEstado(), incidencia.getDescIncidencia()};
                             dtm.addRow(arr);
                         }
@@ -478,9 +549,8 @@ public class GestorForm extends javax.swing.JFrame {
         }
     }
 
-
     Integer idSeleccionada;
-    String strFilter = "espera";
+    String strFilter = "todas";
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton asignarTecnico;
     private javax.swing.JButton darDeAlta;
@@ -494,13 +564,14 @@ public class GestorForm extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPaneTablaGestor;
-    private javax.swing.JTextField jTextFieldTecnicoAsignar;
-    private javax.swing.JTextField jTextFieldTecnicoListar;
-    private javax.swing.JTextField jTextFieldTipo;
+    private javax.swing.JComboBox<String> listTecnicoComboBox;
+    private javax.swing.JButton listarAsignadas;
     private javax.swing.JButton listarEnEspera;
     private javax.swing.JButton listarPorTecnico;
     private javax.swing.JButton listarPorTipo;
     private javax.swing.JMenu menuAyuda;
     private javax.swing.JTable tablita;
+    private javax.swing.JComboBox<String> tecnicoComboBox;
+    private javax.swing.JComboBox<String> tipoComboBox;
     // End of variables declaration//GEN-END:variables
 }

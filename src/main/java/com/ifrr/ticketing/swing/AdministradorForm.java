@@ -16,8 +16,10 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import javax.help.HelpBroker;
 import javax.help.HelpSet;
 import javax.swing.JOptionPane;
@@ -49,6 +51,7 @@ public class AdministradorForm extends javax.swing.JFrame {
         this.sd = sd;
         this.se = se;
         initComponents();
+        loadComboBoxData();
     }
 
     /**
@@ -62,6 +65,7 @@ public class AdministradorForm extends javax.swing.JFrame {
 
         jTabbedPane = new javax.swing.JTabbedPane();
         panelGestor = new javax.swing.JPanel();
+        tipoComboBox = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         asignarTecnico = new javax.swing.JButton();
         jScrollPaneTablaGestor = new javax.swing.JScrollPane();
@@ -70,50 +74,52 @@ public class AdministradorForm extends javax.swing.JFrame {
         listarPorTipo = new javax.swing.JButton();
         listarPorTecnico = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
-        jTextFieldTipo = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jTextFieldTecnicoListar = new javax.swing.JTextField();
-        jTextFieldTecnicoAsignar = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         darDeAlta = new javax.swing.JButton();
         detallesIncidencia = new javax.swing.JButton();
         asignarGestor = new javax.swing.JButton();
-        jTextFieldGestorAsignar = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
+        gestorComboBox = new javax.swing.JComboBox<>();
+        tecnicoComboBox = new javax.swing.JComboBox<>();
+        listTecnicoComboBox = new javax.swing.JComboBox<>();
+        gestorIncidenciasTodas = new javax.swing.JButton();
         panelIncidencias = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         tablitaIncidencias = new javax.swing.JTable();
         incidenciasPorTipo = new javax.swing.JButton();
-        textIncidenciasPorTipo = new javax.swing.JTextField();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         incidenciasPorUsuario = new javax.swing.JButton();
-        textIncidenciasPorUsuario = new javax.swing.JTextField();
         jLabel21 = new javax.swing.JLabel();
         incidenciasPorTecnico = new javax.swing.JButton();
-        textIncidenciasPorTecnico = new javax.swing.JTextField();
         jLabel22 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
-        textIncidenciasPorGestor = new javax.swing.JTextField();
         incidenciasPorGestor = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jFormattedTextField1 = new javax.swing.JFormattedTextField();
         jFormattedTextField2 = new javax.swing.JFormattedTextField();
         incidenciasPorFecha = new javax.swing.JButton();
         incidenciasTodas = new javax.swing.JButton();
-        detallesIncidencia1 = new javax.swing.JButton();
+        detallesIncidencias = new javax.swing.JButton();
+        incidenciasGestorComboBox = new javax.swing.JComboBox<>();
+        incidenciasTecnicoComboBox = new javax.swing.JComboBox<>();
+        incidenciasUsuarioComboBox = new javax.swing.JComboBox<>();
+        incidenciasTipoComboBox = new javax.swing.JComboBox<>();
+        borrarIncidencia = new javax.swing.JButton();
+        crearIncidencia = new javax.swing.JButton();
         panelUsuarios = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         tablitaUsuarios = new javax.swing.JTable();
         usuariosTodos = new javax.swing.JButton();
-        textUsuarioPerfil = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         usuariosDetalles = new javax.swing.JButton();
         usuariosPorPerfil = new javax.swing.JButton();
         crearUsuario = new javax.swing.JButton();
         borrarUsuario = new javax.swing.JButton();
+        perfilComboBox = new javax.swing.JComboBox<>();
         panelDispositivos = new javax.swing.JPanel();
         jScrollPane8 = new javax.swing.JScrollPane();
         tablitaDispositivos = new javax.swing.JTable();
@@ -139,10 +145,12 @@ public class AdministradorForm extends javax.swing.JFrame {
         setSize(new java.awt.Dimension(1120, 650));
 
         jTabbedPane.setMinimumSize(new java.awt.Dimension(1000, 650));
-        jTabbedPane.setPreferredSize(new java.awt.Dimension(1000, 650));
+        jTabbedPane.setPreferredSize(new java.awt.Dimension(1100, 650));
 
         panelGestor.setBackground(new java.awt.Color(102, 102, 255));
         panelGestor.setPreferredSize(new java.awt.Dimension(1100, 615));
+
+        tipoComboBox.setPreferredSize(new java.awt.Dimension(72, 230));
 
         jLabel2.setBackground(new java.awt.Color(255, 255, 255));
         jLabel2.setFont(new java.awt.Font("Liberation Sans", 1, 13)); // NOI18N
@@ -233,10 +241,10 @@ public class AdministradorForm extends javax.swing.JFrame {
         jLabel3.setText("Tipo:");
 
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("Id técnico:");
+        jLabel4.setText("Técnico:");
 
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("Id técnico:");
+        jLabel5.setText("Técnico:");
 
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Listar");
@@ -275,7 +283,15 @@ public class AdministradorForm extends javax.swing.JFrame {
         });
 
         jLabel7.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel7.setText("Id gestor:");
+        jLabel7.setText("Gestor:");
+
+        gestorIncidenciasTodas.setBackground(new java.awt.Color(153, 204, 255));
+        gestorIncidenciasTodas.setText("Listar todas las incidencias");
+        gestorIncidenciasTodas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                gestorIncidenciasTodasActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelGestorLayout = new javax.swing.GroupLayout(panelGestor);
         panelGestor.setLayout(panelGestorLayout);
@@ -283,17 +299,15 @@ public class AdministradorForm extends javax.swing.JFrame {
             panelGestorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelGestorLayout.createSequentialGroup()
                 .addGap(53, 53, 53)
-                .addGroup(panelGestorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(panelGestorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(asignarTecnico, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
-                        .addComponent(jTextFieldTecnicoAsignar)
-                        .addComponent(detallesIncidencia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(panelGestorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(asignarGestor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTextFieldGestorAsignar)
-                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(darDeAlta, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(panelGestorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(asignarTecnico, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
+                    .addComponent(detallesIncidencia, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(asignarGestor, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
+                    .addComponent(darDeAlta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
+                    .addComponent(gestorComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(tecnicoComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panelGestorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelGestorLayout.createSequentialGroup()
@@ -303,15 +317,16 @@ public class AdministradorForm extends javax.swing.JFrame {
                             .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(panelGestorLayout.createSequentialGroup()
-                                .addGroup(panelGestorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jTextFieldTecnicoListar, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextFieldTipo, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(panelGestorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel6)
-                                        .addComponent(listarPorTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(listarPorTecnico, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(listarEnEspera, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(0, 61, Short.MAX_VALUE)))
+                                .addGroup(panelGestorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(panelGestorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(listarEnEspera, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(listarPorTipo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(listarPorTecnico, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(tipoComboBox, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(listTecnicoComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(gestorIncidenciasTodas, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 161, Short.MAX_VALUE)))
                         .addContainerGap())
                     .addGroup(panelGestorLayout.createSequentialGroup()
                         .addGap(155, 155, 155)
@@ -324,42 +339,42 @@ public class AdministradorForm extends javax.swing.JFrame {
                 .addGap(35, 35, 35)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelGestorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelGestorLayout.createSequentialGroup()
-                        .addGap(54, 54, 54)
+                .addGroup(panelGestorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelGestorLayout.createSequentialGroup()
+                        .addComponent(gestorIncidenciasTodas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(listarEnEspera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextFieldTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tipoComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(listarPorTipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(24, 24, 24)
+                        .addGap(23, 23, 23)
                         .addComponent(jLabel4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldTecnicoListar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(listTecnicoComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(listarPorTecnico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(panelGestorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(panelGestorLayout.createSequentialGroup()
-                            .addComponent(darDeAlta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(jLabel7)
-                            .addGap(7, 7, 7)
-                            .addComponent(jTextFieldGestorAsignar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(asignarGestor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(jLabel5)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(jTextFieldTecnicoAsignar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(asignarTecnico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(detallesIncidencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addComponent(jScrollPaneTablaGestor, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelGestorLayout.createSequentialGroup()
+                        .addComponent(darDeAlta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel7)
+                        .addGap(7, 7, 7)
+                        .addComponent(gestorComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(asignarGestor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tecnicoComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(asignarTecnico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(detallesIncidencia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPaneTablaGestor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(87, Short.MAX_VALUE))
         );
 
@@ -413,7 +428,6 @@ public class AdministradorForm extends javax.swing.JFrame {
             }
         });
         panelIncidencias.add(incidenciasPorTipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 100, 176, 62));
-        panelIncidencias.add(textIncidenciasPorTipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 176, -1));
 
         jLabel13.setBackground(new java.awt.Color(255, 255, 255));
         jLabel13.setForeground(new java.awt.Color(255, 255, 255));
@@ -435,11 +449,10 @@ public class AdministradorForm extends javax.swing.JFrame {
             }
         });
         panelIncidencias.add(incidenciasPorUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 250, 176, 62));
-        panelIncidencias.add(textIncidenciasPorUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 210, 176, -1));
 
         jLabel21.setBackground(new java.awt.Color(255, 255, 255));
         jLabel21.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel21.setText("Id Usuario:");
+        jLabel21.setText("Usuario:");
         panelIncidencias.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, -1, -1));
 
         incidenciasPorTecnico.setBackground(new java.awt.Color(153, 204, 255));
@@ -450,18 +463,16 @@ public class AdministradorForm extends javax.swing.JFrame {
             }
         });
         panelIncidencias.add(incidenciasPorTecnico, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 400, 176, 62));
-        panelIncidencias.add(textIncidenciasPorTecnico, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 360, 176, -1));
 
         jLabel22.setBackground(new java.awt.Color(255, 255, 255));
         jLabel22.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel22.setText("Id Técnico:");
+        jLabel22.setText("Técnico:");
         panelIncidencias.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 330, -1, -1));
 
         jLabel23.setBackground(new java.awt.Color(255, 255, 255));
         jLabel23.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel23.setText("Id Gestor:");
+        jLabel23.setText("Gestor:");
         panelIncidencias.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 470, -1, -1));
-        panelIncidencias.add(textIncidenciasPorGestor, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 500, 176, -1));
 
         incidenciasPorGestor.setBackground(new java.awt.Color(153, 204, 255));
         incidenciasPorGestor.setText("Listar por Id de Gestor");
@@ -502,19 +513,51 @@ public class AdministradorForm extends javax.swing.JFrame {
                 incidenciasTodasActionPerformed(evt);
             }
         });
-        panelIncidencias.add(incidenciasTodas, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 290, 270, 60));
+        panelIncidencias.add(incidenciasTodas, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 280, 270, 60));
 
-        detallesIncidencia1.setBackground(new java.awt.Color(153, 204, 255));
-        detallesIncidencia1.setText("Detalles de incidencia");
-        detallesIncidencia1.setMaximumSize(new java.awt.Dimension(163, 62));
-        detallesIncidencia1.setMinimumSize(new java.awt.Dimension(163, 62));
-        detallesIncidencia1.setPreferredSize(new java.awt.Dimension(163, 62));
-        detallesIncidencia1.addActionListener(new java.awt.event.ActionListener() {
+        detallesIncidencias.setBackground(new java.awt.Color(153, 204, 255));
+        detallesIncidencias.setText("Detalles de incidencia");
+        detallesIncidencias.setMaximumSize(new java.awt.Dimension(163, 62));
+        detallesIncidencias.setMinimumSize(new java.awt.Dimension(163, 62));
+        detallesIncidencias.setPreferredSize(new java.awt.Dimension(163, 62));
+        detallesIncidencias.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                detallesIncidencia1ActionPerformed(evt);
+                detallesIncidenciasActionPerformed(evt);
             }
         });
-        panelIncidencias.add(detallesIncidencia1, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 200, 270, -1));
+        panelIncidencias.add(detallesIncidencias, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 200, 270, -1));
+
+        panelIncidencias.add(incidenciasGestorComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 500, 170, -1));
+
+        panelIncidencias.add(incidenciasTecnicoComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 360, 170, -1));
+
+        panelIncidencias.add(incidenciasUsuarioComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 210, 170, -1));
+
+        panelIncidencias.add(incidenciasTipoComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 170, -1));
+
+        borrarIncidencia.setBackground(new java.awt.Color(153, 204, 255));
+        borrarIncidencia.setText("Borrar incidencia");
+        borrarIncidencia.setMaximumSize(new java.awt.Dimension(163, 62));
+        borrarIncidencia.setMinimumSize(new java.awt.Dimension(163, 62));
+        borrarIncidencia.setPreferredSize(new java.awt.Dimension(163, 62));
+        borrarIncidencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                borrarIncidenciaActionPerformed(evt);
+            }
+        });
+        panelIncidencias.add(borrarIncidencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 360, 270, -1));
+
+        crearIncidencia.setBackground(new java.awt.Color(153, 204, 255));
+        crearIncidencia.setText("Crear incidencia");
+        crearIncidencia.setMaximumSize(new java.awt.Dimension(163, 62));
+        crearIncidencia.setMinimumSize(new java.awt.Dimension(163, 62));
+        crearIncidencia.setPreferredSize(new java.awt.Dimension(163, 62));
+        crearIncidencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                crearIncidenciaActionPerformed(evt);
+            }
+        });
+        panelIncidencias.add(crearIncidencia, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 440, 270, -1));
 
         jTabbedPane.addTab("Incidencias", panelIncidencias);
 
@@ -567,7 +610,6 @@ public class AdministradorForm extends javax.swing.JFrame {
             }
         });
         panelUsuarios.add(usuariosTodos, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 180, 176, 62));
-        panelUsuarios.add(textUsuarioPerfil, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 176, -1));
 
         jLabel15.setBackground(new java.awt.Color(255, 255, 255));
         jLabel15.setForeground(new java.awt.Color(255, 255, 255));
@@ -616,6 +658,9 @@ public class AdministradorForm extends javax.swing.JFrame {
             }
         });
         panelUsuarios.add(borrarUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 420, 176, 62));
+
+        perfilComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Usuario", "Técnico", "Gestor", "Administrador" }));
+        panelUsuarios.add(perfilComboBox, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 170, -1));
 
         jTabbedPane.addTab("Usuarios", panelUsuarios);
 
@@ -843,17 +888,17 @@ public class AdministradorForm extends javax.swing.JFrame {
         if (idSeleccionada != null) {
             Incidencia seleccionada = si.getIncidenciaById(idSeleccionada);
             if (seleccionada != null) {
-                if (!jTextFieldTecnicoAsignar.getText().matches(".*[a-zA-Z].*")) {
-                    if (tecnico && !jTextFieldTecnicoAsignar.getText().isBlank() && !seleccionada.getTecnico().getId().equals(Integer.valueOf(jTextFieldTecnicoAsignar.getText()))) {
-                        seleccionada.setTecnico(su.getUsuarioById(Integer.valueOf(jTextFieldTecnicoAsignar.getText())));
-                        si.updateIncidencia(seleccionada);
-                    }
+                String selectedGestor = (String) gestorComboBox.getSelectedItem();
+                String selectedTecnico = (String) tecnicoComboBox.getSelectedItem();
+                if (!tecnico && selectedGestor != null) {
+                    int gestorId = Integer.parseInt(selectedGestor.split(";")[0]);
+                    seleccionada.setGestor(su.getUsuarioById(gestorId));
+                    si.updateIncidencia(seleccionada);
                 }
-                if (!jTextFieldGestorAsignar.getText().matches(".*[a-zA-Z].*")) {
-                    if (!tecnico && !jTextFieldGestorAsignar.getText().isBlank() && !seleccionada.getGestor().getId().equals(Integer.valueOf(jTextFieldGestorAsignar.getText()))) {
-                        seleccionada.setGestor(su.getUsuarioById(Integer.valueOf(jTextFieldGestorAsignar.getText())));
-                        si.updateIncidencia(seleccionada);
-                    }
+                if (tecnico && selectedTecnico != null) {
+                    int tecnicoId = Integer.parseInt(selectedTecnico.split(";")[0]);
+                    seleccionada.setTecnico(su.getUsuarioById(tecnicoId));
+                    si.updateIncidencia(seleccionada);
                 }
             }
             updateTable(strFilterGestor, "gestor");
@@ -867,13 +912,58 @@ public class AdministradorForm extends javax.swing.JFrame {
         }
     }
 
+    private void loadComboBoxData() {
+        List<Usuario> usuarios = su.getAllUsuarios();
+        for (Usuario u : usuarios) {
+            Set<Perfil> perfiles = u.getPerfiles();
+            boolean esTecnico = false;
+            boolean esGestor = false;
+            boolean esUsuario = false;
+
+            for (Perfil p : perfiles) {
+                if (p.getId() == 1) {
+                    esUsuario = true;
+                }
+                if (p.getId() == 2) {
+                    esTecnico = true;
+                }
+                if (p.getId() == 3) {
+                    esGestor = true;
+                }
+            }
+
+            String item = u.getId() + ";" + u.getNombreApellidos() + ";" + u.getCorreo();
+
+            if (esTecnico) {
+                tecnicoComboBox.addItem(item);
+                listTecnicoComboBox.addItem(item);
+                incidenciasTecnicoComboBox.addItem(item);
+            }
+            if (esGestor) {
+                gestorComboBox.addItem(item);
+                incidenciasGestorComboBox.addItem(item);
+            }
+            if (esUsuario) {
+                incidenciasUsuarioComboBox.addItem(item);
+            }
+        }
+        HashSet<String> tipos = new HashSet<>();
+        for (Incidencia in : si.getAllIncidencias()) {
+            tipos.add(in.getTipo());
+        }
+        for (String tipo : tipos) {
+            tipoComboBox.addItem(tipo);
+            incidenciasTipoComboBox.addItem(tipo);
+        }
+    }
+
     private void listarEnEsperaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listarEnEsperaActionPerformed
         strFilterGestor = "espera";
         updateTable(strFilterGestor, "gestor");
     }//GEN-LAST:event_listarEnEsperaActionPerformed
 
     private void listarPorTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listarPorTipoActionPerformed
-        if (!jTextFieldTipo.getText().isBlank()) {
+        if ((String) tipoComboBox.getSelectedItem() != null) {
             strFilterGestor = "tipo";
             updateTable(strFilterGestor, "gestor");
         } else {
@@ -887,7 +977,7 @@ public class AdministradorForm extends javax.swing.JFrame {
     }//GEN-LAST:event_listarPorTipoActionPerformed
 
     private void listarPorTecnicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_listarPorTecnicoActionPerformed
-        if (!jTextFieldTecnicoListar.getText().isBlank() && !jTextFieldTecnicoListar.getText().matches(".*[a-zA-Z].*")) {
+        if ((String) listTecnicoComboBox.getSelectedItem() != null) {
             strFilterGestor = "tecnico";
             updateTable(strFilterGestor, "gestor");
         } else {
@@ -903,9 +993,11 @@ public class AdministradorForm extends javax.swing.JFrame {
     private void darDeAltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_darDeAltaActionPerformed
         if (idSeleccionada != null) {
             Incidencia seleccionada = si.getIncidenciaById(idSeleccionada);
-            if (!seleccionada.getDescSolucion().isBlank() && !seleccionada.getTipo().isBlank()) {
-                seleccionada.setEstado("aprobada");
-                si.updateIncidencia(seleccionada);
+            if (seleccionada != null) {
+                if (seleccionada.getEstado().contains("espera")) {
+                    seleccionada.setEstado("aprobada");
+                    si.updateIncidencia(seleccionada);
+                }
             }
             updateTable(strFilterGestor, "gestor");
         } else {
@@ -975,7 +1067,7 @@ public class AdministradorForm extends javax.swing.JFrame {
 
 
     private void incidenciasPorTipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_incidenciasPorTipoActionPerformed
-        if (!textIncidenciasPorTipo.getText().isBlank()) {
+        if ((String) incidenciasTipoComboBox.getSelectedItem() != null) {
             strFilterIncidencias = "tipo";
             updateTable(strFilterIncidencias, "incidencias");
         } else {
@@ -989,7 +1081,7 @@ public class AdministradorForm extends javax.swing.JFrame {
     }//GEN-LAST:event_incidenciasPorTipoActionPerformed
 
     private void incidenciasPorUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_incidenciasPorUsuarioActionPerformed
-        if (!textIncidenciasPorUsuario.getText().isBlank() && !textIncidenciasPorUsuario.getText().matches(".*[a-zA-Z].*")) {
+        if ((String) incidenciasUsuarioComboBox.getSelectedItem() != null) {
             strFilterIncidencias = "usuario";
             updateTable(strFilterIncidencias, "incidencias");
         } else {
@@ -1003,7 +1095,7 @@ public class AdministradorForm extends javax.swing.JFrame {
     }//GEN-LAST:event_incidenciasPorUsuarioActionPerformed
 
     private void incidenciasPorTecnicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_incidenciasPorTecnicoActionPerformed
-        if (!textIncidenciasPorTecnico.getText().isBlank() && !textIncidenciasPorTecnico.getText().matches(".*[a-zA-Z].*")) {
+        if ((String) incidenciasTecnicoComboBox.getSelectedItem() != null) {
             strFilterIncidencias = "tecnico";
             updateTable(strFilterIncidencias, "incidencias");
         } else {
@@ -1017,7 +1109,7 @@ public class AdministradorForm extends javax.swing.JFrame {
     }//GEN-LAST:event_incidenciasPorTecnicoActionPerformed
 
     private void incidenciasPorGestorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_incidenciasPorGestorActionPerformed
-        if (!textIncidenciasPorGestor.getText().isBlank() && !textIncidenciasPorGestor.getText().matches(".*[a-zA-Z].*")) {
+        if ((String) incidenciasGestorComboBox.getSelectedItem() != null) {
             strFilterIncidencias = "gestor";
             updateTable(strFilterIncidencias, "incidencias");
         } else {
@@ -1072,9 +1164,9 @@ public class AdministradorForm extends javax.swing.JFrame {
         idSeleccionada = (Integer) source.getModel().getValueAt(fila, 0);
     }//GEN-LAST:event_tablitaUsuariosMousePressed
 
-    private void detallesIncidencia1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_detallesIncidencia1ActionPerformed
+    private void detallesIncidenciasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_detallesIncidenciasActionPerformed
         detallesIncidencia();
-    }//GEN-LAST:event_detallesIncidencia1ActionPerformed
+    }//GEN-LAST:event_detallesIncidenciasActionPerformed
 
     private void usuariosDetallesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usuariosDetallesActionPerformed
         if (idSeleccionada != null) {
@@ -1103,7 +1195,7 @@ public class AdministradorForm extends javax.swing.JFrame {
     }//GEN-LAST:event_usuariosDetallesActionPerformed
 
     private void usuariosPorPerfilActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_usuariosPorPerfilActionPerformed
-        if (!textUsuarioPerfil.getText().isBlank()) {
+        if ((String) perfilComboBox.getSelectedItem() != null) {
             strFilterUsuarios = "porperfil";
             updateTable(strFilterUsuarios, "usuario");
         } else {
@@ -1263,6 +1355,36 @@ public class AdministradorForm extends javax.swing.JFrame {
         asignar(false);
     }//GEN-LAST:event_asignarGestorActionPerformed
 
+    private void gestorIncidenciasTodasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gestorIncidenciasTodasActionPerformed
+        strFilterGestor = "todas";
+        updateTable(strFilterGestor, "gestor");
+    }//GEN-LAST:event_gestorIncidenciasTodasActionPerformed
+
+    private void borrarIncidenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_borrarIncidenciaActionPerformed
+        if (idSeleccionada != null) {
+            si.deleteIncidencia(idSeleccionada);
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Se ha borrado la incidencia con ID: " + idSeleccionada,
+                    "Usuario Borrado",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
+            updateTable(strFilterIncidencias, "incidencias");
+        } else {
+            JOptionPane.showMessageDialog(
+                    null,
+                    "Por favor, selecciona una incidencia antes de pulsar el botón",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE
+            );
+        }
+    }//GEN-LAST:event_borrarIncidenciaActionPerformed
+
+    private void crearIncidenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crearIncidenciaActionPerformed
+        new AdminCreateIncidencia(this, true, sd, se, su, si).setVisible(true);
+        updateTable(strFilterIncidencias, "incidencias");
+    }//GEN-LAST:event_crearIncidenciaActionPerformed
+
     private void updateTable(String filtro, String panel) {
         try {
             DefaultTableModel dtm;
@@ -1295,13 +1417,10 @@ public class AdministradorForm extends javax.swing.JFrame {
                 LocalDate a, b, c;
                 for (Incidencia incidencia : incidencias) {
                     if (panel.equals("gestor")) {
-                        if (filtro.equals("espera") && incidencia.getEstado().contains("espera")) {
-                            arr = new Object[]{incidencia.getId(), incidencia.getEstado(), incidencia.getDescIncidencia()};
-                            dtm.addRow(arr);
-                        } else if (filtro.equals("tipo") && Objects.equals(incidencia.getTipo(), jTextFieldTipo.getText())) {
-                            arr = new Object[]{incidencia.getId(), incidencia.getEstado(), incidencia.getDescIncidencia()};
-                            dtm.addRow(arr);
-                        } else if (filtro.equals("tecnico") && Objects.equals(incidencia.getTecnico().getId(), Integer.valueOf(jTextFieldTecnicoListar.getText()))) {
+                        if (filtro.equals("todas") 
+                                || (filtro.equals("espera") && incidencia.getEstado().contains("espera"))
+                                || (filtro.equals("tipo") && Objects.equals(incidencia.getTipo(), (String) tipoComboBox.getSelectedItem()))
+                                || (filtro.equals("tecnico") && Objects.equals(incidencia.getTecnico().getId(), Integer.valueOf(((String) listTecnicoComboBox.getSelectedItem()).split(";")[0])))) {
                             arr = new Object[]{incidencia.getId(), incidencia.getEstado(), incidencia.getDescIncidencia()};
                             dtm.addRow(arr);
                         }
@@ -1309,10 +1428,10 @@ public class AdministradorForm extends javax.swing.JFrame {
                     } else if (panel.equals("incidencias")) {
                         if (filtro.equals("todas")
                                 || (filtro.equals("espera") && incidencia.getEstado().contains("espera")
-                                || (filtro.equals("tipo") && Objects.equals(incidencia.getTipo(), textIncidenciasPorTipo.getText()))
-                                || (filtro.equals("usuario") && Objects.equals(incidencia.getUsuario().getId(), Integer.valueOf(textIncidenciasPorUsuario.getText())))
-                                || (filtro.equals("tecnico") && Objects.equals(incidencia.getTecnico().getId(), Integer.valueOf(textIncidenciasPorTecnico.getText())))
-                                || (filtro.equals("gestor") && Objects.equals(incidencia.getGestor().getId(), Integer.valueOf(textIncidenciasPorGestor.getText()))))) {
+                                || (filtro.equals("tipo") && Objects.equals(incidencia.getTipo(), (String) incidenciasTipoComboBox.getSelectedItem()))
+                                || (filtro.equals("usuario") && Objects.equals(incidencia.getUsuario().getId(), Integer.valueOf(((String) incidenciasUsuarioComboBox.getSelectedItem()).split(";")[0])))
+                                || (filtro.equals("tecnico") && Objects.equals(incidencia.getTecnico().getId(), Integer.valueOf(((String) incidenciasTecnicoComboBox.getSelectedItem()).split(";")[0])))
+                                || (filtro.equals("gestor") && Objects.equals(incidencia.getGestor().getId(), Integer.valueOf(((String) incidenciasGestorComboBox.getSelectedItem()).split(";")[0]))))) {
                             arr = new Object[]{incidencia.getId(), incidencia.getEstado(), incidencia.getDescIncidencia()};
                             dtm.addRow(arr);
                         } else if (filtro.equals("porfecha") && !incidencia.getfCierre().isBlank()) {
@@ -1345,7 +1464,7 @@ public class AdministradorForm extends javax.swing.JFrame {
                 for (Usuario usuario : usuarios) {
                     if (filtro.equals("porperfil")) {
                         for (Perfil perfil : usuario.getPerfiles()) {
-                            if (perfil.getTipo().equalsIgnoreCase(textUsuarioPerfil.getText())) {
+                            if (perfil.getTipo().equalsIgnoreCase((String) perfilComboBox.getSelectedItem())) {
                                 bper = true;
                             }
                         }
@@ -1393,7 +1512,7 @@ public class AdministradorForm extends javax.swing.JFrame {
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-M-d");
     Integer idSeleccionada;
-    String strFilterGestor = "espera";
+    String strFilterGestor = "todas";
     String strFilterIncidencias = "todas";
     String strFilterUsuarios = "todos";
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1401,23 +1520,31 @@ public class AdministradorForm extends javax.swing.JFrame {
     private javax.swing.JButton asignarTecnico;
     private javax.swing.JButton borrarDispositivo;
     private javax.swing.JButton borrarEspacio;
+    private javax.swing.JButton borrarIncidencia;
     private javax.swing.JButton borrarUsuario;
     private javax.swing.JButton crearDispositivo;
     private javax.swing.JButton crearEspacio;
+    private javax.swing.JButton crearIncidencia;
     private javax.swing.JButton crearUsuario;
     private javax.swing.JButton darDeAlta;
     private javax.swing.JButton detallesIncidencia;
-    private javax.swing.JButton detallesIncidencia1;
+    private javax.swing.JButton detallesIncidencias;
     private javax.swing.JButton dispositivosDetalles;
     private javax.swing.JButton dispositivosTodos;
     private javax.swing.JButton espaciosDetalles;
     private javax.swing.JButton espaciosTodos;
+    private javax.swing.JComboBox<String> gestorComboBox;
+    private javax.swing.JButton gestorIncidenciasTodas;
+    private javax.swing.JComboBox<String> incidenciasGestorComboBox;
     private javax.swing.JButton incidenciasPorFecha;
     private javax.swing.JButton incidenciasPorGestor;
     private javax.swing.JButton incidenciasPorTecnico;
     private javax.swing.JButton incidenciasPorTipo;
     private javax.swing.JButton incidenciasPorUsuario;
+    private javax.swing.JComboBox<String> incidenciasTecnicoComboBox;
+    private javax.swing.JComboBox<String> incidenciasTipoComboBox;
     private javax.swing.JButton incidenciasTodas;
+    private javax.swing.JComboBox<String> incidenciasUsuarioComboBox;
     private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JFormattedTextField jFormattedTextField2;
     private javax.swing.JLabel jLabel1;
@@ -1444,10 +1571,7 @@ public class AdministradorForm extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JScrollPane jScrollPaneTablaGestor;
     private javax.swing.JTabbedPane jTabbedPane;
-    private javax.swing.JTextField jTextFieldGestorAsignar;
-    private javax.swing.JTextField jTextFieldTecnicoAsignar;
-    private javax.swing.JTextField jTextFieldTecnicoListar;
-    private javax.swing.JTextField jTextFieldTipo;
+    private javax.swing.JComboBox<String> listTecnicoComboBox;
     private javax.swing.JButton listarEnEspera;
     private javax.swing.JButton listarPorTecnico;
     private javax.swing.JButton listarPorTipo;
@@ -1457,16 +1581,14 @@ public class AdministradorForm extends javax.swing.JFrame {
     private javax.swing.JPanel panelGestor;
     private javax.swing.JPanel panelIncidencias;
     private javax.swing.JPanel panelUsuarios;
+    private javax.swing.JComboBox<String> perfilComboBox;
     private javax.swing.JTable tablitaDispositivos;
     private javax.swing.JTable tablitaEspacios;
     private javax.swing.JTable tablitaGestor;
     private javax.swing.JTable tablitaIncidencias;
     private javax.swing.JTable tablitaUsuarios;
-    private javax.swing.JTextField textIncidenciasPorGestor;
-    private javax.swing.JTextField textIncidenciasPorTecnico;
-    private javax.swing.JTextField textIncidenciasPorTipo;
-    private javax.swing.JTextField textIncidenciasPorUsuario;
-    private javax.swing.JTextField textUsuarioPerfil;
+    private javax.swing.JComboBox<String> tecnicoComboBox;
+    private javax.swing.JComboBox<String> tipoComboBox;
     private javax.swing.JButton usuariosDetalles;
     private javax.swing.JButton usuariosPorPerfil;
     private javax.swing.JButton usuariosTodos;
